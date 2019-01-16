@@ -90,7 +90,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://gaoxuefeng.com/uploads/personCenterV02.gif">
 <meta property="og:image" content="http://gaoxuefeng.com/uploads/personCenterV01.gif">
-<meta property="og:updated_time" content="2019-01-16T03:08:45.189Z">
+<meta property="og:updated_time" content="2019-01-16T03:19:37.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS支持横滑的多tab布局">
 <meta name="twitter:description" content="把18年做的事情整理一下，这次是个人中心布局的架构实现">
@@ -350,7 +350,7 @@
 </ul>
 <p>下面我们一个一个的解决这些问题：</p>
 <h3 id="让headerView随着页面上下滚动"><a href="#让headerView随着页面上下滚动" class="headerlink" title="让headerView随着页面上下滚动"></a>让headerView随着页面上下滚动</h3><p>先讲一下层级关系，根据包含层级，从底层到上层：UIViewController &gt; UIScrollView &gt; pagingView（单独创建的页面UIView） &gt; UICollectionView（流布局）</p>
-<p>headerView和scrollView都父级都是viewController，但是headerView盖在scrollView上面。scrollView里面包含了两个pagingView，横滑切换就是两个pagingView显隐的切换</p>
+<p>headerView和scrollView的父级都是viewController，但是headerView盖在scrollView上面。scrollView里面包含了两个pagingView，横滑切换就是两个pagingView位置的切换</p>
 <p>实现方式是在pagingView内实现UIScrollView的这个delegate：</p>
 <figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView;</span><br></pre></td></tr></table></figure>
 <p>接收到pagingView在上下滑动后，修改headerView的位置</p>
