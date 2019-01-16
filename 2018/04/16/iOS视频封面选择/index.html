@@ -1,0 +1,878 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="在做一个iOS视频封面选择功能时，遇到的所有的Google的东西">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS视频封面选择">
+<meta property="og:url" content="http://gaoxuefeng.com/2018/04/16/iOS视频封面选择/index.html">
+<meta property="og:site_name" content="Gaoxuefeng&#39;s Blog">
+<meta property="og:description" content="在做一个iOS视频封面选择功能时，遇到的所有的Google的东西">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-02T13:40:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS视频封面选择">
+<meta name="twitter:description" content="在做一个iOS视频封面选择功能时，遇到的所有的Google的东西">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: false,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <meta name="baidu-site-verification" content="3YPbgeBMlS">
+  <title> iOS视频封面选择 | Gaoxuefeng's Blog </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c3782dc0cacd99020a13bb244258b4a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s11.cnzz.com/z_stat.php?id=1259006158&web_id=1259006158" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gaoxuefeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">只想走的更远一点</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS视频封面选择
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-16T14:56:52+08:00" content="2018-04-16">
+              2018-04-16
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="/categories/create/" itemprop="url" rel="index">
+                    <span itemprop="name">create</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/04/16/iOS视频封面选择/" class="leancloud_visitors" data-flag-title="iOS视频封面选择">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在做一个iOS视频封面选择功能时，遇到的所有的Google的东西</p>
+<a id="more"></a>
+<h2 id="UITableView取消点击cell的选择状态"><a href="#UITableView取消点击cell的选择状态" class="headerlink" title="UITableView取消点击cell的选择状态"></a>UITableView取消点击cell的选择状态</h2><p>点击cell的时候，默认会有一个选择状态的背景颜色，用下面两种方法可以取消:</p>
+<p><strong>方法1:</strong></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView didSelectRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    [tableView deselectRowAtIndexPath:indexPath animated:<span class="literal">NO</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>方法2:</strong></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    cell.selectionStyle = <span class="built_in">UITableViewCellSelectionStyleNone</span>;</span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我自己使用方法1没生效，方法2生效了</p>
+<h2 id="浮点类型取整"><a href="#浮点类型取整" class="headerlink" title="浮点类型取整"></a>浮点类型取整</h2><p>ceil是天花板，floor是地板，给一个中间的数值，推算天花板和地板处的数值</p>
+<ul>
+<li>round: 如果参数是小数，则求本身的四舍五入</li>
+<li>ceil: 如果参数是小数，则求最小的整数但不小于本身</li>
+<li>floor: 如果参数是小数，则求最大的整数但不大于本身</li>
+</ul>
+<p>每个方法根据参数和返回值不同，又各自分别有三个方法</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">float</span> ceilf(<span class="keyword">float</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">double</span> ceil(<span class="keyword">double</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">long</span> <span class="keyword">double</span> ceill(<span class="keyword">long</span> <span class="keyword">double</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="CMTime如何打印出来"><a href="#CMTime如何打印出来" class="headerlink" title="CMTime如何打印出来"></a>CMTime如何打印出来</h2><figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"seconds = %f"</span>, <span class="built_in">CMTimeGetSeconds</span>(cmTime));</span><br></pre></td></tr></table></figure>
+<h2 id="字符串和数字类型的转换"><a href="#字符串和数字类型的转换" class="headerlink" title="字符串和数字类型的转换"></a>字符串和数字类型的转换</h2><p>字符串拼接</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *newString = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@%@"</span>, tempA, tempB];</span><br></pre></td></tr></table></figure>
+<p>字符转int</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> intString = [newString intValue];</span><br></pre></td></tr></table></figure>
+<p>int转字符</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *stringInt = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%d"</span>, intString];</span><br></pre></td></tr></table></figure>
+<p>字符转float</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="keyword">float</span> floatString = [newString floatValue];</span><br></pre></td></tr></table></figure>
+<p>float转字符</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *stringFloat = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%f"</span>, intString];</span><br></pre></td></tr></table></figure>
+<h2 id="NSDictionary字典和NSMutableDictionary可变字典"><a href="#NSDictionary字典和NSMutableDictionary可变字典" class="headerlink" title="NSDictionary字典和NSMutableDictionary可变字典"></a>NSDictionary字典和NSMutableDictionary可变字典</h2><p>字典用于保存具有映射关系数据的集合<br>一个<code>key—value</code>对认为是一个条目<code>entry</code>，字典是存储<code>key—value</code>对的容器<br>与数组不同，字典靠key存取元素<br>key不能重复，value必须是对象<br>键值对在字典中是无序存储的<br>字典分: 不可变字<code>NSDictionary</code>和可变字典<code>NSMutableDictionary</code><br>不可变字典一旦创建，键值对就不可更改，不可添加，不可删除，仅能读取key或者value</p>
+<p><strong>创建字典</strong></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSDictionary</span> *dic1 = [[<span class="built_in">NSDictionary</span> alloc] initWithObjectsAndKeys:<span class="string">@"Duke"</span>, <span class="string">@"name"</span>, @<span class="number">33</span>, <span class="string">@"age"</span>, <span class="string">@"男"</span>, <span class="string">@"gender"</span>, <span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *dic2 = [<span class="built_in">NSDictionary</span> dictionaryWithObjectsAndKeys:<span class="string">@"Duke"</span>, <span class="string">@"name"</span>, @<span class="number">33</span>, <span class="string">@"age"</span>, <span class="string">@"男"</span>, <span class="string">@"gender"</span>, <span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建字典对象时两个数组元素个数必须一致</span></span><br><span class="line"><span class="built_in">NSArray</span> *keys = @[<span class="string">@"name"</span>, <span class="string">@"age"</span>, <span class="string">@"gender"</span>];</span><br><span class="line"><span class="built_in">NSArray</span> *values = @[<span class="string">@"Duke"</span>, @<span class="number">33</span>, <span class="string">@"male"</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *dic3 = [[<span class="built_in">NSDictionary</span> alloc] initWithObjects:values forKeys:keys];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *dic4 = [<span class="built_in">NSDictionary</span> dictionaryWithObjects:values forKeys:keys];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSDictionary</span> *dic5 = @&#123;<span class="string">@"name"</span> : <span class="string">@"Duke"</span>, <span class="string">@"age"</span> : @<span class="number">33</span>, <span class="string">@"gender"</span> : <span class="string">@"male"</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>遍历字典</strong></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSInteger</span> count = [dic count];</span><br><span class="line"><span class="built_in">NSArray</span> *allKeys = [dic allKeys];</span><br><span class="line"><span class="built_in">NSArray</span> *allValues = [dic allValues];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">    <span class="keyword">id</span> key = [allKeys objectAtIndex:i];</span><br><span class="line">    <span class="keyword">id</span> value = [dic objectForKey:key];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSString</span>* result = [value isKindOfClass:[<span class="built_in">NSString</span> <span class="keyword">class</span>]] ? <span class="string">@"YES"</span> : <span class="string">@"NO"</span>;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@:%@--&gt;%@"</span>, key, value, result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 快速遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">NSString</span> *key <span class="keyword">in</span> dic) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"dictionary[%@]:%@"</span>, key, dic[key]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>可变字典</strong></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">[dic setObject:<span class="string">@"Duke"</span> forKey:<span class="string">@"name"</span>];</span><br><span class="line"></span><br><span class="line">[dic removeObjectForKey:<span class="string">@"age"</span>];</span><br><span class="line"></span><br><span class="line">[dic removeAllObjects];</span><br></pre></td></tr></table></figure>
+<p><strong>集合</strong></p>
+<p>OC中的集合（NSSet）与数学中的集合一样，集合中的元素具有唯一性、存储单元的元素是无序的、存储元素必须是对象类型</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 用数组对象来创建集合对象</span></span><br><span class="line"><span class="comment">// 可以通过这种方法过滤掉数组中重复的元素对象</span></span><br><span class="line"><span class="built_in">NSArray</span> *array = @[@<span class="number">1</span>, @<span class="number">2</span>, @<span class="number">3</span>, @<span class="number">2</span>, @<span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSSet</span> *set3 = [[<span class="built_in">NSSet</span> alloc] initWithArray:array];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSSet</span> *set4 = [<span class="built_in">NSSet</span> setWithArray:array];</span><br></pre></td></tr></table></figure>
+<p>来源 <a href="http://www.cnblogs.com/496668219long/p/4419476.html" target="_blank" rel="noopener">OC中NSDictionary（字典）、NSMutableDictionary（可变字典）、NSSet（集合）、NSMutableSet（可变集合）得常用方法</a></p>
+<h2 id="UIImageView的contentMode"><a href="#UIImageView的contentMode" class="headerlink" title="UIImageView的contentMode"></a>UIImageView的contentMode</h2><p>当我使用<code>UIViewContentModeScaleAspectFill</code>这个<code>contentMode</code>的时候，发现图片的内容会超出<code>UIImageView</code>的宽高，我希望图片内容被裁剪</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">_imageView.layer.masksToBounds = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
+<p>加上这个属性就可以裁剪了，如果为true，则将与图层边界匹配的隐式遮罩应用于图层（包括cornerRadius属性的效果）</p>
+<blockquote>
+<p>解决这个问题的教训就是，不知道的事情先Google，不然就是浪费时间，浪费生命</p>
+</blockquote>
+<p>来源 <a href="https://blog.csdn.net/chenyufeng1991/article/details/51814220" target="_blank" rel="noopener">iOS开发——UIImageView的contentMode、裁剪和layer属性详解</a></p>
+<h2 id="居中布局"><a href="#居中布局" class="headerlink" title="居中布局"></a>居中布局</h2><figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">make.centerX.equalTo(weakSelf.mas_centerX);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以后抄的时候，注意要多看两眼</p>
+</blockquote>
+<h2 id="一个类的入口是viewDidLoad"><a href="#一个类的入口是viewDidLoad" class="headerlink" title="一个类的入口是viewDidLoad"></a>一个类的入口是viewDidLoad</h2><p><strong>viewWillAppear</strong></p>
+<p>viewWillAppear总是在viewDidLoad之后被调用，但不是立即，当你只是引用了属性view，却没有立即把view添加到任何已经展示的视图上时，viewWillAppear不会被调用，这在view被外部引用时，就会发生。当然，随着ViewController的多次推入，多次进入子页面后返回，该方法会被多次调用</p>
+<p><strong>锁屏之后会被调用吗？</strong></p>
+<p>不会。viewWillAppear关注的是view在层次中的显示与消失，锁屏并没有改变App本身的层次</p>
+<p><strong>Window叠加后，会被调用吗？</strong></p>
+<p>不会。同锁屏时的原因类似，叠加Window并没有改变ViewController所在Window的视图层次，换句话说，view并没有被覆盖或删除（相对于自己所在Window）</p>
+<p><strong>视图显示后</strong></p>
+<p><code>- (void)viewDidAppear:(BOOL)animated</code>将被调用，子视图有自定义动画时，建议在Did方法中启动，在Will中启动动画时，动画效果将不会很理想。</p>
+<p><strong>viewWillAppear 与 viewDidAppear 之间发生了什么</strong></p>
+<p><code>- viewWillLayoutSubviews</code>和<code>- viewDidLayoutSubviews</code>将会被调用</p>
+<p>而使用Autolayout时，子视图大小只有在viewDidLayoutSubviews才真正被设置好，所以这里才是获取子视图大小的正确位置，常见的错误是，在viewDidLoad中读取了某个view.frame，用来给其它子视图赋值，结果得到一堆大小“不定”的视图，甚至可能为零，在视图中看不见！</p>
+<p>来源 <a href="https://www.jianshu.com/p/df240103cedf" target="_blank" rel="noopener">iOS开发基础:【从诞生到死亡】ViewController的生命周期</a></p>
+<h2 id="UITableView设置横向"><a href="#UITableView设置横向" class="headerlink" title="UITableView设置横向"></a>UITableView设置横向</h2><p>iOS中的tableview默认是竖向的，但是开发中往往有布局横向tableview的需求，其实tableview可以设置旋转角度实现方向</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//设置逆时针旋转90度。 M_PI是π=3.1415926，意为180°，M_PI前带-指逆时针，不带指顺时针</span></span><br><span class="line"><span class="keyword">self</span>.tableView.transform = <span class="built_in">CGAffineTransformMakeRotation</span>(-M_PI / <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<p>这里实现tableview的旋转，但是如果只这样大家会发现cell的方向是不正确的，方法是cell生成的时候设置旋转cell:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">//设置逆时针旋转270度。</span></span><br><span class="line">cell.transform = <span class="built_in">CGAffineTransformRotation</span>(-M_PI * <span class="number">1.5</span>);</span><br></pre></td></tr></table></figure>
+<p>这样的话tableview就被设置为横放了。</p>
+<blockquote>
+<p>若想设置tableview的frame应在设置旋转后设置，否则旋转将破环原来的frame<br>一定要在旋转后再设置frame，切记，切记</p>
+</blockquote>
+<p>来源 <a href="https://blog.csdn.net/hong1595/article/details/19505031" target="_blank" rel="noopener">ios之UITableView设置横向</a></p>
+<h2 id="触摸与手势"><a href="#触摸与手势" class="headerlink" title="触摸与手势"></a>触摸与手势</h2><h3 id="触摸事件处理"><a href="#触摸事件处理" class="headerlink" title="触摸事件处理"></a>触摸事件处理</h3><p><strong>响应者对象</strong></p>
+<p>在iOS中不是任何对象都能处理事件，只有继承了UIResponder的对象才能接收并处理事件。我们称之为“响应者对象”</p>
+<p>UIApplication、UIViewController、UIView都继承自UIResponder，因此它们都是响应者对象，都能够接收并处理事件</p>
+<p><strong>UIResponder</strong></p>
+<p>UIResponder内部提供了以下方法来处理事件:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 触摸事件</span></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesMoved:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesEnded:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)touchesCancelled:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加速计事件</span></span><br><span class="line">- (<span class="keyword">void</span>)motionBegan:(<span class="built_in">UIEventSubtype</span>)motion withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)motionEnded:(<span class="built_in">UIEventSubtype</span>)motion withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">- (<span class="keyword">void</span>)motionCancelled:(<span class="built_in">UIEventSubtype</span>)motion withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 远程控制事件</span></span><br><span class="line">- (<span class="keyword">void</span>)remoteControlReceivedWithEvent:(<span class="built_in">UIEvent</span> *)event;</span><br></pre></td></tr></table></figure>
+<p><strong>UIView的触摸事件处理</strong></p>
+<p>UIView是UIResponder的子类，可以覆盖下列4个方法处理不同的触摸事件:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 一根或者多根手指开始触摸view，系统会自动调用view的下面方法 */</span></span><br><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 一根或者多根手指在view上移动，系统会自动调用view的下面方法（随着手指的移动，会持续调用该方法） */</span></span><br><span class="line">- (<span class="keyword">void</span>)touchesMoved:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 一根或者多根手指离开view，系统会自动调用view的下面方法 */</span></span><br><span class="line">- (<span class="keyword">void</span>)touchesEnded:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 触摸结束前，某个系统事件(例如电话呼入)会打断触摸过程，系统会自动调用view的下面方法 */</span></span><br><span class="line">- (<span class="keyword">void</span>)touchesCancelled:(<span class="built_in">NSSet</span> *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提示:touches中存放的都是UITouch对象</span></span><br></pre></td></tr></table></figure>
+<p>然后关于<code>UITouch</code>和<code>UIEvent</code>有一写属性和方法</p>
+<p><strong>如何寻找最合适的View?</strong></p>
+<ol>
+<li>先判断自己是否能够接收触摸事件，如果能够接收事件再继续往下判断</li>
+<li>如果在自己身上，它会从后往前遍历子控件，遍历出每一个子控件后，重复前面的两个步骤</li>
+<li>如果没有符合条件的子控件，那么它自己就是最适合的View</li>
+<li>注意: 如果父控件不能接收触摸事件，那么子控件就不可能接收到触摸事件</li>
+</ol>
+<p><strong>UIView不能接收触摸事件的三种情况</strong></p>
+<ul>
+<li>不接收用户交互时不能够处理事件: <code>userInteractionEnabled = NO</code></li>
+<li>当一个控件隐藏的时候不能够接收事件: <code>Hidden = YES</code>的时候</li>
+<li>当一个控件为透明白时候也不能够接收事件: <code>alpha = 0.0 ~ 0.01</code></li>
+<li>注意: UIImageView的userInteractionEnabled默认就是NO，因此UIImageView以及它的子控件默认是不能接收触摸事件的</li>
+</ul>
+<h3 id="手势事件"><a href="#手势事件" class="headerlink" title="手势事件"></a>手势事件</h3><p>手势类<code>UIGestureRecognizer</code>是更高级的封装，使用起来更方便</p>
+<ul>
+<li>UITapGestureRecognizer（轻触，点按）</li>
+<li>UILongPressGestureRecognizer（长按）</li>
+<li>UISwipeGestureRecognizer（轻扫手势）</li>
+<li>UIRotationGestureRecognizer（旋转手势）</li>
+<li>UIPanGestureRecognizer（拖拽手势）</li>
+<li>UIPinchGestureRecognizer（捏合手势，缩放用）</li>
+</ul>
+<p>我用到了<code>UITapGestureRecognizer</code>和<code>UIPanGestureRecognizer</code></p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">UITapGestureRecognizer</span>* singleTap = [[<span class="built_in">UITapGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(singleTap:)];</span><br><span class="line">[_tableView addGestureRecognizer:singleTap];</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIPanGestureRecognizer</span> *panTap = [[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(panTap:)];</span><br><span class="line">[_tableView addGestureRecognizer:panTap];</span><br></pre></td></tr></table></figure>
+<p>开始的时候，我发现<code>singleTap</code>会在手指轻按屏幕并离开时被调用，无法在手指触摸到屏幕的时候被调用<br>实现下面这个<code>UIGestureRecognizerDelegate</code>代理方法，可以拿到手指触摸到屏幕时的事件</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 手指触摸屏幕后回调的方法，返回 NO 则不再进行手势识别，方法触发等</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)gestureRecognizer:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer shouldReceiveTouch:(<span class="built_in">UITouch</span> *)touch</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 手指触摸屏幕时触发</span></span><br><span class="line">    <span class="built_in">CGPoint</span> point = [touch locationInView:<span class="keyword">self</span>.tableView];</span><br><span class="line">    [<span class="keyword">self</span> touchHandle:point];</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来源 <a href="https://www.jianshu.com/p/96891a033ea1" target="_blank" rel="noopener">iOS学习之触摸事件</a><br>来源 <a href="https://www.jianshu.com/p/c3aa07e33d33" target="_blank" rel="noopener">UIGestureRecognizer  手势识别</a></p>
+<h2 id="获取视频的任意一帧"><a href="#获取视频的任意一帧" class="headerlink" title="获取视频的任意一帧"></a>获取视频的任意一帧</h2><figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">+ (<span class="built_in">UIImage</span> *)buildEveryImageWithFileUrl:(<span class="built_in">NSURL</span> *)fileUrl withDegress:(<span class="built_in">CGFloat</span>)degress &#123;</span><br><span class="line">    <span class="keyword">if</span> (!fileUrl)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">AVAsset</span> * avasset = [<span class="built_in">AVAsset</span> assetWithURL:fileUrl];</span><br><span class="line">    <span class="keyword">if</span> (avasset) &#123;</span><br><span class="line">        <span class="built_in">AVAssetImageGenerator</span> * imageGenerator = [<span class="built_in">AVAssetImageGenerator</span> assetImageGeneratorWithAsset:avasset];</span><br><span class="line">        imageGenerator.appliesPreferredTrackTransform = <span class="literal">YES</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取精确时间需要，否则会取缓存</span></span><br><span class="line">        imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;</span><br><span class="line">        imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> duration = avasset.duration.value;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// CMTimeMake(a, b); a当前第几帧，b每秒钟多少帧，b越大越精准</span></span><br><span class="line">        <span class="built_in">CMTime</span> time = <span class="built_in">CMTimeMake</span>(duration * degress / <span class="number">100.0</span>f, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">NSError</span> * error = <span class="literal">nil</span>;</span><br><span class="line">        <span class="built_in">CGImageRef</span> cgimage = [imageGenerator copyCGImageAtTime:time actualTime:<span class="literal">nil</span> error:&amp;error];</span><br><span class="line"></span><br><span class="line">        <span class="built_in">UIImage</span> * image = [<span class="built_in">UIImage</span> imageWithCGImage:cgimage];</span><br><span class="line">        <span class="built_in">CGImageRelease</span>(cgimage);</span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来源 <a href="https://blog.csdn.net/oqqQuZi1234567/article/details/42921025" target="_blank" rel="noopener">iOS 获取视频的任意一帧</a></p>
+<h2 id="UISlider的调研"><a href="#UISlider的调研" class="headerlink" title="UISlider的调研"></a>UISlider的调研</h2><figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">UISlider</span>* mySlider = [[<span class="built_in">UISlider</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">20.0</span>, <span class="number">10.0</span>, <span class="number">200.0</span>, <span class="number">0.0</span>)];</span><br><span class="line"></span><br><span class="line">mySlider.mininumValue = <span class="number">0.0</span>; <span class="comment">// 下限  </span></span><br><span class="line">mySlider.maxinumValue = <span class="number">50.0</span>; <span class="comment">// 上限</span></span><br><span class="line"></span><br><span class="line">mySlider.value = <span class="number">22.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义滑块和两端的图片</span></span><br><span class="line">[mySlider setThumbImage:thumbImage forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">[mySlider setMinimumTrackImage:[<span class="built_in">UIImage</span> imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">[mySlider setMaximumTrackImage:[<span class="built_in">UIImage</span> imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forState:<span class="built_in">UIControlStateNormal</span>];</span><br></pre></td></tr></table></figure>
+<p>无法实现的需求:</p>
+<ol>
+<li>只能拖拽，不能通过点击某一点跳转进度</li>
+<li>只能自定义图片，不能自定义<code>UIView</code></li>
+</ol>
+<p>所以没有使用</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/24/promise的使用/" rel="next" title="promise的使用">
+                <i class="fa fa-chevron-left"></i> promise的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/01/CocoaPods私有库/" rel="prev" title="CocoaPods私有库">
+                CocoaPods私有库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="gxf">
+          <p class="site-author-name" itemprop="name">gxf</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ggsoul" target="_blank" title="GitHub">
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/XuefGao" target="_blank" title="Weibo">
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://segmentfault.com/u/ggsoul" target="_blank" title="SegmentFault">
+                  
+                  SegmentFault
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/gxf470001" target="_blank" title="Twitter">
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://my.csdn.net/candy_home" title="candy" target="_blank">candy</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://searchp.cc/" title="searchpcc" target="_blank">searchpcc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://mrli.me/" title="Mr.li" target="_blank">Mr.li</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ycyx28.com/" title="Chao" target="_blank">Chao</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UITableView取消点击cell的选择状态"><span class="nav-number">1.</span> <span class="nav-text">UITableView取消点击cell的选择状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点类型取整"><span class="nav-number">2.</span> <span class="nav-text">浮点类型取整</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMTime如何打印出来"><span class="nav-number">3.</span> <span class="nav-text">CMTime如何打印出来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串和数字类型的转换"><span class="nav-number">4.</span> <span class="nav-text">字符串和数字类型的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSDictionary字典和NSMutableDictionary可变字典"><span class="nav-number">5.</span> <span class="nav-text">NSDictionary字典和NSMutableDictionary可变字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIImageView的contentMode"><span class="nav-number">6.</span> <span class="nav-text">UIImageView的contentMode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#居中布局"><span class="nav-number">7.</span> <span class="nav-text">居中布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个类的入口是viewDidLoad"><span class="nav-number">8.</span> <span class="nav-text">一个类的入口是viewDidLoad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UITableView设置横向"><span class="nav-number">9.</span> <span class="nav-text">UITableView设置横向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触摸与手势"><span class="nav-number">10.</span> <span class="nav-text">触摸与手势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#触摸事件处理"><span class="nav-number">10.1.</span> <span class="nav-text">触摸事件处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势事件"><span class="nav-number">10.2.</span> <span class="nav-text">手势事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取视频的任意一帧"><span class="nav-number">11.</span> <span class="nav-text">获取视频的任意一帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UISlider的调研"><span class="nav-number">12.</span> <span class="nav-text">UISlider的调研</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gxf</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("WQkR0jDl5lLEcptvei9NmDR0-gzGzoHsz", "QIOxQpiKaIR8UafqIHm73OK0");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>

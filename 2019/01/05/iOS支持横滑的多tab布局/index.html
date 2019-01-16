@@ -1,0 +1,810 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="把18年做的事情整理一下，这次是个人中心布局的架构实现">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS支持横滑的多tab布局">
+<meta property="og:url" content="http://gaoxuefeng.com/2019/01/05/iOS支持横滑的多tab布局/index.html">
+<meta property="og:site_name" content="Gaoxuefeng&#39;s Blog">
+<meta property="og:description" content="把18年做的事情整理一下，这次是个人中心布局的架构实现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://gaoxuefeng.com/uploads/personCenterV01.gif">
+<meta property="og:image" content="http://gaoxuefeng.com/uploads/personCenterV02.gif">
+<meta property="og:updated_time" content="2019-01-15T16:17:23.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS支持横滑的多tab布局">
+<meta name="twitter:description" content="把18年做的事情整理一下，这次是个人中心布局的架构实现">
+<meta name="twitter:image" content="http://gaoxuefeng.com/uploads/personCenterV01.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: false,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <meta name="baidu-site-verification" content="3YPbgeBMlS">
+  <title> iOS支持横滑的多tab布局 | Gaoxuefeng's Blog </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c3782dc0cacd99020a13bb244258b4a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s11.cnzz.com/z_stat.php?id=1259006158&web_id=1259006158" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gaoxuefeng's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">只想走的更远一点</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS支持横滑的多tab布局
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-01-05T23:51:52+08:00" content="2019-01-05">
+              2019-01-05
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="/categories/create/" itemprop="url" rel="index">
+                    <span itemprop="name">create</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2019/01/05/iOS支持横滑的多tab布局/" class="leancloud_visitors" data-flag-title="iOS支持横滑的多tab布局">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>把18年做的事情整理一下，这次是个人中心布局的架构实现</p>
+<a id="more"></a>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>UI大写开头的，UIScrollView这种是指<code>类</code><br>小写开头的，scrollView这种是指<code>实现</code></p>
+</blockquote>
+<p>这是拥有公共头部，支持两个tab横滑的页面，其实就是抖音的个人中心，demo做了简化，没有演示吸顶和点击tab</p>
+<p>实现效果：</p>
+<p><img src="/uploads/personCenterV01.gif" alt="personCenterV"></p>
+<p>支持手势横滑的tab是用UIScrollView完成的，UIScrollView是在固定宽高的窗口内可以上下左右滑动的视图，用来承载屏幕上显示那些在有限区域内放不下的内容</p>
+<p>正如demo中看到的，UIScrollView内放置了两个和手机屏幕等宽的页面，可以横滑。每个页面都是单独的内容流，可以上滑显示更多内容</p>
+<p>本次解决的问题是，每个页面是相对独立的，横滑的时候是页面为单位的横滑，如何保持同一块视图不跟随横滑，并且又能跟随页面上下滚动</p>
+<p>比如这样：</p>
+<p><img src="/uploads/personCenterV02.gif" alt="personCenterV"></p>
+<h2 id="具体思路"><a href="#具体思路" class="headerlink" title="具体思路"></a>具体思路</h2><p>这里的实现方式是，把共享视图单独做一个UIView，盖在UIScrollView上面，这样UIScrollView横滑时，共享视图保持不动（共享视图命名为headerView）</p>
+<p>随之而来是三个需要解决的问题：</p>
+<ul>
+<li>headerView不会随着页面上下滚动</li>
+<li>手指在headerView上滑动的时候，scrollView不会接收手势事件进行滑动</li>
+<li>手指在headerView的subview（子集UIView）上滑动的时候，scrollView不会接收手势事件进行滑动</li>
+</ul>
+<p>下面我们一个一个的解决这些问题：</p>
+<h3 id="让headerView随着页面上下滚动"><a href="#让headerView随着页面上下滚动" class="headerlink" title="让headerView随着页面上下滚动"></a>让headerView随着页面上下滚动</h3><p>先讲一下层级关系，根据包含层级，从底层到上层：UIViewController &gt; UIScrollView &gt; pagingView（单独创建的页面UIView） &gt; UICollectionView（流布局）</p>
+<p>headerView和scrollView都父级都是viewController，但是headerView盖在scrollView上面。scrollView里面包含了两个pagingView，横滑切换就是两个pagingView显隐的切换</p>
+<p>实现方式是在pagingView内实现UIScrollView的这个delegate：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView;</span><br></pre></td></tr></table></figure>
+<p>接收到pagingView在上下滑动后，修改headerView的位置</p>
+<blockquote>
+<p>代码一共涉及四个文件：</p>
+</blockquote>
+<blockquote>
+<p>GXFMineViewController : UIViewController<br>GXFScrollView : UIScrollView<br>GXFMinePagingView : UIView<br>GXFMineHeaderAreaView : UIView</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidScrollWithY &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.isPagingScrolling) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    GXFMinePagingView *currentCell = [_pagingView cellAtIndex:<span class="keyword">self</span>.pagingCurrentIndex];</span><br><span class="line">    <span class="built_in">CGFloat</span> offsetY = currentCell.collectionView.contentOffset.y - <span class="number">64</span> - <span class="number">20</span>;</span><br><span class="line">    <span class="comment">// 这里的210是headerView的高度，这里是demo简单写死了</span></span><br><span class="line">    <span class="built_in">CGFloat</span> headerOffsetY = <span class="number">210</span>;</span><br><span class="line">    <span class="keyword">if</span> (offsetY &lt;= headerOffsetY) &#123;</span><br><span class="line">        headerOffsetY = offsetY;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGRect</span> frame = <span class="keyword">self</span>.headerAreaView.frame;</span><br><span class="line">    frame.origin.y = -headerOffsetY;</span><br><span class="line">    <span class="keyword">self</span>.headerAreaView.frame = frame;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以实现headerView随着页面上下滚动了，但要注意scrollView横滑的时候要及时修正headerView的位置，因为两个pagingView的滚动值contentOffset.y是不同的</p>
+<p>因此，也需要在UIViewController内实现UIScrollView的这个delegate，不过上次处理的是纵向的滑动，这次处理的是横向的滑动：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)scrollViewWillBeginDragging:(<span class="built_in">UIScrollView</span> *)scrollView&#123;</span><br><span class="line">    <span class="keyword">self</span>.pagingCurrentIndex = _pagingView.currentCellIndex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line">    <span class="keyword">self</span>.isPagingScrolling = <span class="literal">YES</span>;</span><br><span class="line">    </span><br><span class="line">    GXFMinePagingView *currentCell = [_pagingView cellAtIndex:<span class="keyword">self</span>.pagingCurrentIndex];</span><br><span class="line">    <span class="keyword">if</span>(currentCell &amp;&amp; _pagingView.currentCellIndex == <span class="keyword">self</span>.pagingCurrentIndex)&#123;</span><br><span class="line">       GXFMinePagingView * cell = [_pagingView cellAtIndex:(<span class="keyword">self</span>.pagingCurrentIndex+<span class="number">1</span>)%<span class="number">2</span>];</span><br><span class="line">        <span class="built_in">CGFloat</span> offsetY = currentCell.collectionView.contentOffset.y;</span><br><span class="line">        <span class="built_in">CGFloat</span> contentH = cell.collectionView.contentSize.height;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从页面A滑动到页面B时，如果B的真实高度比较小，为了避免显示空内容，页面B纵向滚动到吸顶位置</span></span><br><span class="line">        offsetY = (offsetY &gt;= contentH) ? <span class="number">210</span> : offsetY;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(cell)&#123;</span><br><span class="line">            [cell.collectionView setContentOffset:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, offsetY) animated:<span class="literal">NO</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDecelerating:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line">    <span class="keyword">self</span>.pagingCurrentIndex = _pagingView.currentCellIndex;</span><br><span class="line">    <span class="keyword">self</span>.isPagingScrolling = <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接收headerView的滑动手势事件"><a href="#接收headerView的滑动手势事件" class="headerlink" title="接收headerView的滑动手势事件"></a>接收headerView的滑动手势事件</h3><p>一次触摸事件是由一组UITouch对象状态变化引起的一组Touch message的转发和派送，然后UIResponser类用来接收和处理事件，常见的UIResponser有UIView及子类，UIViController，AppDelegate，UIApplication等等</p>
+<p>用户点击之后会从第一个UIWindow对象开始，先判断UIWindow是否合格，其次判断点击位置在不在这个Window内，如果不在，返回nil，就换下一个UIWindow；如果在的话，并且UIWindow没有subView就返回自己，整个过程结束。如果UIWindow有subViews,就从后往前遍历整个subViews，做和UIWindow类似的事情，直到找到一个View。如果没有找到就不做传递</p>
+<p>显示控件有两个方法来做上面这件事，就是常说的hitTest：</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 先判断点是否在View内部，然后遍历subViews</span></span><br><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;  </span><br><span class="line"><span class="comment">//判断点是否在这个View内部</span></span><br><span class="line">- (<span class="built_in">BOOL</span>)pointInside:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="keyword">nullable</span> <span class="built_in">UIEvent</span> *)event;</span><br></pre></td></tr></table></figure>
+<p>我们初始化headerView的时候，传递pagingView的collectionView进去:</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (GXFMineHeaderAreaView *)headerAreaView &#123;</span><br><span class="line">    <span class="keyword">if</span> (_headerAreaView == <span class="literal">nil</span>) &#123;</span><br><span class="line">        _headerAreaView = [[GXFMineHeaderAreaView alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">20</span>, <span class="number">64</span> + <span class="number">20</span>, <span class="keyword">self</span>.view.frame.size.width - <span class="number">40</span>, <span class="number">210</span>)];</span><br><span class="line">        _headerAreaView.backgroundColor = [<span class="built_in">UIColor</span> lightGrayColor];</span><br><span class="line">        _headerAreaView.delegate = <span class="keyword">self</span>;</span><br><span class="line">        </span><br><span class="line">        __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>)weakSelf = <span class="keyword">self</span>;</span><br><span class="line">        _headerAreaView.getRespondView = ^<span class="built_in">UIView</span> *&#123;</span><br><span class="line">            <span class="keyword">if</span> (weakSelf == <span class="literal">nil</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">nil</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">            GXFMinePagingView * cell = [weakSelf.pagingView cellAtIndex:weakSelf.pagingView.currentCellIndex];</span><br><span class="line">            <span class="keyword">if</span> (cell) &#123;</span><br><span class="line">                <span class="keyword">return</span> cell.collectionView;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> weakSelf.headerAreaView;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _headerAreaView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重写headerView的hitTest方法，将headerView的手势事件转移给pagingView的collectionView，在headerView上滑动就相当于在pagingView的collectionView上滑动</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="built_in">UIView</span>*)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</span><br><span class="line">    <span class="built_in">UIView</span> *respondView = <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> ((_headerView &amp;&amp; _headerView.superview &amp;&amp; <span class="built_in">CGRectContainsPoint</span>(_headerView.frame, point))) &#123;</span><br><span class="line">        <span class="built_in">NSArray</span> *subviews = <span class="keyword">self</span>.headerView.subviews;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">UIView</span> *subview <span class="keyword">in</span> subviews) &#123;</span><br><span class="line">            <span class="comment">// 这里判断headerView上的UIButton类型子视图依旧响应手势</span></span><br><span class="line">            <span class="comment">// 不然，按钮不识别手势就无法处理点击事件了</span></span><br><span class="line">            <span class="comment">// 也就是说按钮这块滑动，不会响应scrollView的滑动</span></span><br><span class="line">            <span class="keyword">if</span> ([subview isKindOfClass:[<span class="built_in">UIButton</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">                </span><br><span class="line">                <span class="built_in">CGPoint</span> newPoint = [subview convertPoint:point fromView:<span class="keyword">self</span>.headerView];</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">CGRectContainsPoint</span>(subview.bounds, newPoint)) &#123;</span><br><span class="line">                    respondView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(respondView == <span class="literal">nil</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">self</span>.getRespondView)&#123;</span><br><span class="line">                respondView = <span class="keyword">self</span>.getRespondView();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(respondView == <span class="literal">nil</span>)&#123;</span><br><span class="line">        respondView = [<span class="keyword">super</span> hitTest:point withEvent:event];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> respondView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="headerView上子视图的滑动手势事件"><a href="#headerView上子视图的滑动手势事件" class="headerlink" title="headerView上子视图的滑动手势事件"></a>headerView上子视图的滑动手势事件</h3><p>因为按钮一定要响应手势事件的，所以不能使用上面的解决方案。于是实现了headerView的手势事件，根据手势事件对象的点击位置，对前后移动位置计算差值，模拟上下滑动效果</p>
+<p>headerView.m</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.currentPointForPan = <span class="built_in">CGPointZero</span>;</span><br><span class="line">        [<span class="keyword">self</span> addSubview: <span class="keyword">self</span>.headerView];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 添加手势事件</span></span><br><span class="line">        _verticalPanGesture = [[<span class="built_in">UIPanGestureRecognizer</span> alloc]initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(onPanGesture:)];</span><br><span class="line">        _verticalPanGesture.delegate = <span class="keyword">self</span>;</span><br><span class="line">        [<span class="keyword">self</span> addGestureRecognizer:_verticalPanGesture];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手势delegate，满足一定条件才允许手势状态更改</span></span><br><span class="line">-(<span class="built_in">BOOL</span>)gestureRecognizerShouldBegin:(<span class="built_in">UIGestureRecognizer</span> *)gestureRecognizer &#123;</span><br><span class="line">	<span class="comment">// 如果手势识别为拖动</span></span><br><span class="line">    <span class="keyword">if</span>([gestureRecognizer isKindOfClass:[<span class="built_in">UIPanGestureRecognizer</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        <span class="built_in">UIPanGestureRecognizer</span> *panGesture = (<span class="built_in">UIPanGestureRecognizer</span>*)gestureRecognizer;</span><br><span class="line">        <span class="built_in">CGPoint</span> velocityPoint = [panGesture velocityInView:<span class="keyword">self</span>.superview];</span><br><span class="line">        <span class="comment">// 如果手指运动是上下滑动</span></span><br><span class="line">        <span class="keyword">if</span>(fabs(velocityPoint.y) &gt; fabs(velocityPoint.x)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 实现手势事件</span></span><br><span class="line">-(<span class="keyword">void</span>)onPanGesture:(<span class="built_in">UIPanGestureRecognizer</span>*)gesture &#123;</span><br><span class="line">    <span class="built_in">CGPoint</span> locationPoint = [gesture locationInView:<span class="keyword">self</span>.superview];</span><br><span class="line">    <span class="built_in">CGPoint</span> velocityPoint =  [gesture velocityInView:<span class="keyword">self</span>.superview];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">CGPointEqualToPoint</span>(<span class="keyword">self</span>.currentPointForPan, <span class="built_in">CGPointZero</span>) &amp;&amp;</span><br><span class="line">       (gesture.state == <span class="built_in">UIGestureRecognizerStateEnded</span> || gesture.state == <span class="built_in">UIGestureRecognizerStateCancelled</span>)) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">CGFloat</span> offsetY = locationPoint.y - <span class="keyword">self</span>.currentPointForPan.y;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">self</span>.delegate &amp;&amp;</span><br><span class="line">           [<span class="keyword">self</span>.delegate conformsToProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">GXFMineHeaderViewAreaDelegate</span>)] &amp;&amp;</span></span><br><span class="line">           [<span class="keyword">self</span>.delegate respondsToSelector:<span class="keyword">@selector</span>(onDraftedHeaderAreaViewWithOffset:)])&#123;</span><br><span class="line">            </span><br><span class="line">            [<span class="keyword">self</span>.delegate onDraftedHeaderAreaViewWithOffset:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, offsetY)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">self</span>.currentPointForPan = <span class="built_in">CGPointZero</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(fabs(velocityPoint.y) &gt; fabs(velocityPoint.x))&#123;</span><br><span class="line">        <span class="keyword">switch</span> (gesture.state) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateBegan</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">self</span>.currentPointForPan = locationPoint;</span><br><span class="line">            &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateChanged</span>:</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">CGFloat</span> offsetY = locationPoint.y - <span class="keyword">self</span>.currentPointForPan.y;</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">self</span>.delegate &amp;&amp;</span><br><span class="line">                   [<span class="keyword">self</span>.delegate conformsToProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">GXFMineHeaderViewAreaDelegate</span>)] &amp;&amp;</span></span><br><span class="line">                   [<span class="keyword">self</span>.delegate respondsToSelector:<span class="keyword">@selector</span>(onDraftingHeaderAreaViewWithOffset:)])&#123;</span><br><span class="line">                    </span><br><span class="line">                    [<span class="keyword">self</span>.delegate onDraftingHeaderAreaViewWithOffset:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, offsetY)];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">self</span>.currentPointForPan = locationPoint;</span><br><span class="line">            &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateCancelled</span>:</span><br><span class="line">            <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateEnded</span>:</span><br><span class="line">            &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GXFMineViewController.m</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)onDraftingHeaderAreaViewWithOffset:(<span class="built_in">CGPoint</span>)offset&#123;</span><br><span class="line">    GXFMinePagingView * cell = [<span class="keyword">self</span>.pagingView cellAtIndex:<span class="keyword">self</span>.pagingView.currentCellIndex];</span><br><span class="line">    <span class="keyword">if</span>(cell)&#123;</span><br><span class="line">        <span class="built_in">CGPoint</span> currentOffset = cell.collectionView.contentOffset;</span><br><span class="line">        currentOffset.x += offset.x;</span><br><span class="line">        currentOffset.y += (-offset.y);</span><br><span class="line">        <span class="keyword">if</span>(currentOffset.y &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            [cell.collectionView setContentOffset:currentOffset animated:<span class="literal">NO</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)onDraftedHeaderAreaViewWithOffset:(<span class="built_in">CGPoint</span>)offset&#123;</span><br><span class="line">    GXFMinePagingView * cell = [<span class="keyword">self</span>.pagingView cellAtIndex:<span class="keyword">self</span>.pagingView.currentCellIndex];</span><br><span class="line">    <span class="keyword">if</span>(cell)&#123;</span><br><span class="line">        <span class="built_in">CGPoint</span> currentOffset = cell.collectionView.contentOffset;</span><br><span class="line">        currentOffset.x += offset.x;</span><br><span class="line">        currentOffset.y += (-offset.y);</span><br><span class="line">        <span class="built_in">CGFloat</span> maxOffset = fabs(cell.collectionView.contentSize.height - cell.collectionView.bounds.size.height);</span><br><span class="line">        <span class="keyword">if</span>(currentOffset.y &lt; <span class="number">0</span>)&#123;</span><br><span class="line">            [cell.collectionView setContentOffset:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, <span class="number">0</span>) animated:<span class="literal">YES</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(ceil(currentOffset.y) &lt;= maxOffset &amp;&amp; cell.collectionView.contentSize.height &gt; cell.collectionView.bounds.size.height)&#123;</span><br><span class="line">                [cell.collectionView setContentOffset:currentOffset animated:<span class="literal">NO</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="built_in">CGFloat</span> offsetY = <span class="number">0.</span>f;</span><br><span class="line">                <span class="keyword">if</span>(cell.collectionView.contentSize.height &gt; cell.collectionView.bounds.size.height)&#123;</span><br><span class="line">                    offsetY = maxOffset;</span><br><span class="line">                &#125;</span><br><span class="line">                [cell.collectionView setContentOffset:<span class="built_in">CGPointMake</span>(<span class="number">0</span>, offsetY) animated:<span class="literal">YES</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面就是基本的实现步骤，后续会考虑换一种方式实现，先到这里</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/CocoaPods私有库/" rel="next" title="CocoaPods私有库">
+                <i class="fa fa-chevron-left"></i> CocoaPods私有库
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/header.jpg" alt="gxf">
+          <p class="site-author-name" itemprop="name">gxf</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ggsoul" target="_blank" title="GitHub">
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/XuefGao" target="_blank" title="Weibo">
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://segmentfault.com/u/ggsoul" target="_blank" title="SegmentFault">
+                  
+                  SegmentFault
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/gxf470001" target="_blank" title="Twitter">
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://my.csdn.net/candy_home" title="candy" target="_blank">candy</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://searchp.cc/" title="searchpcc" target="_blank">searchpcc</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://mrli.me/" title="Mr.li" target="_blank">Mr.li</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ycyx28.com/" title="Chao" target="_blank">Chao</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体思路"><span class="nav-number">2.</span> <span class="nav-text">具体思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#让headerView随着页面上下滚动"><span class="nav-number">2.1.</span> <span class="nav-text">让headerView随着页面上下滚动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收headerView的滑动手势事件"><span class="nav-number">2.2.</span> <span class="nav-text">接收headerView的滑动手势事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#headerView上子视图的滑动手势事件"><span class="nav-number">2.3.</span> <span class="nav-text">headerView上子视图的滑动手势事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gxf</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("WQkR0jDl5lLEcptvei9NmDR0-gzGzoHsz", "QIOxQpiKaIR8UafqIHm73OK0");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
